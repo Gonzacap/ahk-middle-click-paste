@@ -7,31 +7,29 @@ ClipboardPrevState := ""
 ~LButton Up::RetrieveSelectedText()
 
 ; Configura el atajo para pegar el texto al presionar la rueda del ratón
-MButton::pasteSelectedText()
+MButton::PasteSelectedText()
 
 ; Funcion para copiar el texto seleccionado
 RetrieveSelectedText() {
-    if GetKeyState("Control") ; Verifica si la tecla Control está presionada
-        {
-            ClipboardPrevState := Clipboard
-            ; Obtiene el texto seleccionado usando control + C
-            Send, ^c
-            ClipWait
-            if (ErrorLevel = 0 && Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
-                ; Guarda solo el texto copiado en el portapapeles
-                SelectedText := Clipboard
-                ; Copia solo texto a la variable CopiedText
-                CopiedText := SelectedText
-            }
-            ; Restauara el estado anterior al portapapeles
-            Clipboard := ClipboardPrevState
-        }
-        ; Retorna el control al sistema
-        Return
+    ClipboardPrevState := Clipboard
+    ; Obtiene el texto seleccionado usando control + C
+    Send, ^c
+    ClipWait
+    if (ErrorLevel = 0 && Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
+        ; Guarda solo el texto copiado en el portapapeles
+        SelectedText := Clipboard
+        ; Copia solo texto a la variable CopiedText
+        CopiedText := SelectedText
+    }
+    ; Restauara el estado anterior al portapapeles
+    Clipboard := ClipboardPrevState
+    
+    ; Retorna el control al sistema
+    Return
 }
 
 ; Funcion para pegar el texto seleccionado usando la rueda del raton
-pasteSelectedText(){
+PasteSelectedText(){
     if (CopiedText != "") { ; Verifica que haya texto copiado en la variable
         ; Realiza un clic antes de pegar el texto
         Click
