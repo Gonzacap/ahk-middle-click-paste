@@ -16,18 +16,16 @@ RetrieveSelectedText() {
     global CopiedText  
     global ClipboardPrevState
 
-    ClipboardPrevState := Clipboard
+    ClipboardPrevState := A_Clipboard
     ; Obtiene el texto seleccionado usando control + C
     Send, ^c
-    ClipWait
-    if (ErrorLevel = 0 && Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
+    ClipWait, 0.5
+    if (ErrorLevel = 0 && A_Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
         ; Guarda solo el texto copiado en el portapapeles
-        SelectedText := Clipboard
-        ; Copia solo texto a la variable CopiedText
-        CopiedText := SelectedText
+        CopiedText := A_Clipboard
     }
     ; Restauara el estado anterior al portapapeles
-    Clipboard := ClipboardPrevState
+    A_Clipboard := ClipboardPrevState
     
     ; Retorna el control al sistema
     Return
@@ -43,9 +41,11 @@ PasteSelectedText(){
         ; Realiza un clic antes de pegar el texto
         Click
         ; Espera a que se complete el clic
-        Sleep 100
+        Sleep 50
+        ; Establecer retaso
+        SetKeyDelay, 0
         ; Pega el texto copiado
-        SendInput, %CopiedText%
+        Send {Text}%CopiedText%
     }
     ; Retorna el control al sistema
     Return
