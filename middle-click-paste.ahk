@@ -1,7 +1,5 @@
 ﻿; Variable para almacenar el texto copiado
 global CopiedText := ""
-; Variable para almacenar el estado anterior del portapapeles
-global ClipboardPrevState := ""
 
 ; Configura el atajo para copiar solo texto al soltar el botón izquierdo del ratón
 ~LButton Up::RetrieveSelectedText()
@@ -12,20 +10,19 @@ MButton::PasteSelectedText()
 ; Funcion para copiar el texto seleccionado
 RetrieveSelectedText() {
 
-    ; Declarar la variables globales dentro de la función
-    global CopiedText  
-    global ClipboardPrevState
-
-    ClipboardPrevState := A_Clipboard
+    global CopiedText
+    
+    ; Guarda el estado anterior del portapapeles
+    ClipboardPrevState := ClipboardAll
     ; Obtiene el texto seleccionado usando control + C
     Send, ^c
     ClipWait, 0.5
     if (ErrorLevel = 0 && A_Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
-        ; Guarda solo el texto copiado en el portapapeles
+        ; Guarda solo el texto copiado en la variable
         CopiedText := A_Clipboard
     }
-    ; Restauara el estado anterior al portapapeles
-    A_Clipboard := ClipboardPrevState
+    ; Restaura el estado anterior del portapapeles
+    Clipboard := ClipboardPrevState
     
     ; Retorna el control al sistema
     Return
@@ -42,10 +39,14 @@ PasteSelectedText(){
         Click
         ; Espera a que se complete el clic
         Sleep 50
-        ; Establecer retaso
-        SetKeyDelay, 0
-        ; Pega el texto copiado
-        Send {Text}%CopiedText%
+        ; Guarda el estado anterior del portapapeles
+        ClipboardPrevState := ClipboardAll
+        ; Coloca el texto copiado directamente en el portapapeles
+        Clipboard := CopiedText
+        ; Pega el texto del portapapeles
+        Send ^v
+        ; Restaura el estado anterior del portapapeles
+        Clipboard := ClipboardPrevState
     }
     ; Retorna el control al sistema
     Return
