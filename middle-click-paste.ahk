@@ -2,7 +2,11 @@
 global CopiedText := ""
 
 ; Configura el atajo para copiar solo texto al soltar el botón izquierdo del ratón
-~LButton Up::RetrieveSelectedText()
+~LButton Up::
+    if(CheckSelection()) {
+        RetrieveSelectedText()
+    }
+Return
 
 ; Configura el atajo para pegar el texto al presionar la rueda del ratón
 MButton::PasteSelectedText()
@@ -52,4 +56,9 @@ PasteSelectedText(){
     }
     ; Retorna el control al sistema
     Return
+}
+
+; Comprobar si la ventana activa es la barra de inicio
+CheckSelection(){
+    return !WinActive("ahk_class Shell_TrayCmd")
 }
