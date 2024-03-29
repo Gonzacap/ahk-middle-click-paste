@@ -20,6 +20,8 @@ RetrieveSelectedText() {
     if (ErrorLevel = 0 && A_Clipboard != "") { ; Verifica que haya texto seleccionado y que no esté vacío
         ; Guarda solo el texto copiado en la variable
         CopiedText := A_Clipboard
+    } else {
+        MsgBox, "Opps! An error occurred while trying to copy"
     }
     ; Restaura el estado anterior del portapapeles
     Clipboard := ClipboardPrevState
