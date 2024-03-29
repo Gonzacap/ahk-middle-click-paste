@@ -10,7 +10,7 @@ Using Ubuntu I got very used to this functionality and since I didn't have it in
 
 ## Installation
 
-To use this script you must download and install [AutoHotKey](https://www.autohotkey.com/). After this you just have to run the **middle-click-paste.ahk** script.
+To use this script you must download and install [AutoHotKey](https://www.autohotkey.com/). After this you just have to run the **[middle-click-paste.ahk](https://github.com/Gonzacap/ahk-middle-click-paste/blob/master/middle-click-paste.ahk)** script.
 
 ## Usage
 
